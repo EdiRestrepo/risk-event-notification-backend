@@ -23,8 +23,10 @@ namespace RiskEventNotifacion.Api.Controllers
         {
             Boolean result = await this.authFacade.ValidateUsersAsync(request);
             if (result == true) {
+                //return Ok(new { message = "Login exitoso", token = "un-jwt-token-aqui" });
                 return Ok("Ingreso exitoso");
             }
+            //return Unauthorized(new { message = "No autorizado", token = "un-jwt-token-aqui" });
             return Unauthorized("No autorizado");
         }
     }
