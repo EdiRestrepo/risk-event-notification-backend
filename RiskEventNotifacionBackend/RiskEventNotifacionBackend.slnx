@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="RiskEventNotifacion.Api/RiskEventNotifacion.Api.csproj" />
+  <Project Path="RiskEventNotifacion.Application/RiskEventNotifacion.Application.csproj" />
+  <Project Path="RiskEventNotifacion.Domain/RiskEventNotifacion.Domain.csproj" />
+  <Project Path="RiskEventNotifacion.Infraestructure/RiskEventNotifacion.Infraestructure.csproj" />
+  <Project Path="RiskEventNotifacion.Presentation/RiskEventNotifacion.Presentation.csproj" />
+</Solution>
