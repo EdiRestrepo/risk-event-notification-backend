@@ -25,10 +25,8 @@ namespace RiskEventNotifacion.Application.DTOs
                 .SetLocation(location)
                 .SetSource("SIATA")
                 .SetExpiration(DateTime.UtcNow.AddHours(4))
-                .AddInstruction("Evacuar zonas bajas")
-                .AddInstruction("Evitar cruzar corrientes de agua")
-                .AddChannel(NotificationChannel.NotificationWeb)
-                .AddChannel(NotificationChannel.Sms)
+                .AddInstruction(["Evacuar zonas bajas", "Evitar cruzar corrientes de agua"])
+                .AddChannel([NotificationChannel.NotificationWeb, NotificationChannel.Sms])
                 .Build();
         }
 
@@ -48,10 +46,68 @@ namespace RiskEventNotifacion.Application.DTOs
                 .SetLocation(location)
                 .SetSource("SIATA")
                 .SetExpiration(DateTime.UtcNow.AddHours(2))
-                .AddInstruction("Evacuar inmediatamente")
-                .AddChannel(NotificationChannel.NotificationWeb)
-                .AddChannel(NotificationChannel.WhatsApp)
+                .AddInstruction(["Evacuar inmediatamente"])
+                .AddChannel([NotificationChannel.NotificationWeb, NotificationChannel.WhatsApp])
                 .Build();
+        }
+
+        /// <summary>
+        /// Alerta dinamica, con base en los datos suministrados
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="eventType"></param>
+        /// <param name="riskLevel"></param>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="location"></param>
+        /// <param name="source"></param>
+        /// <param name="instructions"></param>
+        /// <param name="channels"></param>
+        /// <returns></returns>
+        public Alerts CreateAlertDynamic(IAlertBuilder builder, EventType eventType, RiskLevel riskLevel, String title, String message, 
+            String location, String source, List<String> instructions, List<NotificationChannel> channels)
+        {
+            if (eventType != EventType.UnDefined)
+            {
+                builder.SetEventType(eventType);
+            }
+
+            if (riskLevel != RiskLevel.UnDefined)
+            {
+                builder.SetRiskLevel(riskLevel);
+            }
+
+            if (!String.IsNullOrEmpty(title))
+            {
+                builder.SetTitle(title);
+            }
+
+            if (!String.IsNullOrEmpty(message))
+            {
+                builder.SetMessage(message);
+            }
+
+            if (!String.IsNullOrEmpty(location))
+            {
+                builder.SetLocation(location);
+            }
+
+            if (!String.IsNullOrEmpty(source))
+            {
+                builder.SetSource(source);
+            }
+
+            if (instructions != null)
+            {
+                builder.AddInstruction(instructions);
+            }
+
+            if (channels != null)
+            {
+                builder.AddChannel(channels);
+            }
+
+            return builder.Build();
         }
     }
 }

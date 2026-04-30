@@ -4,6 +4,8 @@ namespace RiskEventNotifacion.Application.Interfaces
 {
     public interface IAlertsService
     {
-        Task<Boolean> GenerarateAlertAsync(Int16 eventType, Int16 riskLevel, String title, String message, String location, String source, List<String> instructions, List<Int16> channels);
+        Task<Boolean> GenerarateAlertAsync(Int16 eventType, Int16 riskLevel, String title, String message, String location, String source, List<String> instructions, List<Int16> channels, Boolean isGeneric);
+        //ToDo: Quitar de esta service
+        Task<Boolean> GetPreferencesChannelsByUserId(String UserId);
     }
 }

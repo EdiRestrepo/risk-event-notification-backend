@@ -1,5 +1,6 @@
 using RiskEventNotifacion.Application.Interfaces;
 using RiskEventNotifacion.Application.Services;
+using RiskEventNotifacion.Domain.Interfaces;
 using RiskEventNotifacion.Infraestructure.Interfaces;
 using RiskEventNotifacion.Infraestructure.Repositorys;
 using RiskEventNotifacion.Presentation.Facades;
@@ -34,8 +35,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAlertsService, AlertsService>();
 builder.Services.AddScoped<IAuthFacade, AuthFacade>();
+builder.Services.AddScoped<IAlertsFacade, AlertsFacade>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 var app = builder.Build();
 

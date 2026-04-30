@@ -1,5 +1,6 @@
 ﻿using RiskEventNotifacion.Domain.Enum;
 using RiskEventNotifacion.Domain.Interfaces;
+using System.Threading.Channels;
 
 namespace RiskEventNotifacion.Domain.Entities
 {
@@ -29,25 +30,25 @@ namespace RiskEventNotifacion.Domain.Entities
             return this;
         }
 
-        public IAlertBuilder SetTitle(string title)
+        public IAlertBuilder SetTitle(String title)
         {
             this.alert.Title = title;
             return this;
         }
 
-        public IAlertBuilder SetMessage(string message)
+        public IAlertBuilder SetMessage(String message)
         {
             this.alert.Message = message;
             return this;
         }
 
-        public IAlertBuilder SetLocation(string location)
+        public IAlertBuilder SetLocation(String location)
         {
             this.alert.Location = location;
             return this;
         }
 
-        public IAlertBuilder SetSource(string source)
+        public IAlertBuilder SetSource(String source)
         {
             this.alert.Source = source;
             return this;
@@ -59,15 +60,21 @@ namespace RiskEventNotifacion.Domain.Entities
             return this;
         }
 
-        public IAlertBuilder AddInstruction(string instruction)
+        public IAlertBuilder AddInstruction(List<String> instruction)
         {
-            this.alert.Instructions.Add(instruction);
+            foreach (String itemInstruction in instruction)
+            {
+                this.alert.Instructions.Add(itemInstruction);
+            }
             return this;
         }
 
-        public IAlertBuilder AddChannel(NotificationChannel channel)
+        public IAlertBuilder AddChannel(List<NotificationChannel> channel)
         {
-            this.alert.Channels.Add(channel);
+            foreach (NotificationChannel itemChanel in channel)
+            {
+                this.alert.Channels.Add(itemChanel);
+            }
             return this;
         }
 

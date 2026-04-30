@@ -15,8 +15,8 @@ namespace RiskEventNotifacion.Domain.Interfaces
         IAlertBuilder SetLocation(String location);
         IAlertBuilder SetSource(String source);
         IAlertBuilder SetExpiration(DateTime expiration);
-        IAlertBuilder AddInstruction(String instruction);
-        IAlertBuilder AddChannel(NotificationChannel channel);
+        IAlertBuilder AddInstruction(List<String> instruction);
+        IAlertBuilder AddChannel(List<NotificationChannel> channel);
         Alerts Build();
     }
 }

@@ -7,6 +7,11 @@ namespace RiskEventNotifacion.Domain.Enum
     public enum RiskLevel
     {
         /// <summary>
+        /// No definido
+        /// </summary>
+        UnDefined,
+
+        /// <summary>
         /// Bajo
         /// </summary>
         Low,

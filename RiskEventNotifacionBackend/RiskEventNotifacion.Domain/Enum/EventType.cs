@@ -7,6 +7,11 @@ namespace RiskEventNotifacion.Domain.Enum
     public enum EventType
     {
         /// <summary>
+        /// No se tiene un tipo definido
+        /// </summary>
+        UnDefined,
+
+        /// <summary>
         /// Inundaciones
         /// </summary>
         Flood,
