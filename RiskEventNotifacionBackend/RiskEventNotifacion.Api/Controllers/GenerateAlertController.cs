@@ -18,14 +18,21 @@ namespace RiskEventNotifacion.Api.Controllers
         [HttpPost("generar")]
         public async Task<IActionResult> Login(AlertRequest request)
         {
+            ResultObject resultObject = new ResultObject
+            {
+                Success = false,
+                Message = String.Empty,
+                Token = Guid.NewGuid()
+            };
             Boolean result = await this.alertsFacade.GenerarateAlertAsync(request);
             if (result == true)
             {
-                //return Ok(new { message = "Login exitoso", token = "un-jwt-token-aqui" });
-                return Ok("Alerta Generada Correctametne");
+                resultObject.Success = true;
+                resultObject.Message = "Alerta Generada Correctametne";
+                return Ok(resultObject);
             }
-            //return Unauthorized(new { message = "No autorizado", token = "un-jwt-token-aqui" });
-            return Unauthorized("No se pudo generar la alerta");
+            resultObject.Message = "No se pudo generar la alerta";
+            return BadRequest(resultObject);
         }
     }
 }

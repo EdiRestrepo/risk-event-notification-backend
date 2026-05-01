@@ -34,12 +34,21 @@ builder.Services.AddCors(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+//Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAlertsService, AlertsService>();
+builder.Services.AddScoped<IChannelsService, ChannelsService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+
+//Facades
 builder.Services.AddScoped<IAuthFacade, AuthFacade>();
 builder.Services.AddScoped<IAlertsFacade, AlertsFacade>();
+builder.Services.AddScoped<IChannelsFacade, ChannelsFacade>();
+
+//Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
+
+
 
 var app = builder.Build();
 

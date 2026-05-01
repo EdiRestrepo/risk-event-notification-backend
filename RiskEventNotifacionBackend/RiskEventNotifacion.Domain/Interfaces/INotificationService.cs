@@ -9,5 +9,7 @@ namespace RiskEventNotifacion.Domain.Interfaces
     {
         Task SendToAllAsync(NotificationMessage message);
         Task SendToUserAsync(String userId, NotificationMessage message);
+
+        Task SendToMessagePlaneAsync(String messagePlane);
     }
 }

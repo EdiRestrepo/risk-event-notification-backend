@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RiskEventNotifacion.Application.Interfaces;
 using RiskEventNotifacion.Domain.Entities;
+using RiskEventNotifacion.Presentation.Entities;
 
 namespace RiskEventNotifacion.Api.Controllers
 {
@@ -18,12 +19,17 @@ namespace RiskEventNotifacion.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Send(NotificationMessage message)
         {
-            await this.producer.ProduceAsync(message);
-
-            return Ok(new
+            ResultObject resultObject = new ResultObject
             {
-                message = "Notificación enviada a Kafka"
-            });
+                Success = false,
+                Message = String.Empty,
+                Token = Guid.NewGuid()
+            };
+
+            await this.producer.ProduceAsync(message);
+            resultObject.Success = true;
+            resultObject.Message = "Notificación enviada a Kafka";
+            return Ok(resultObject);
         }
     }
 }

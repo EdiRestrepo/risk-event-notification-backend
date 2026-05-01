@@ -69,49 +69,14 @@ namespace RiskEventNotifacion.Application.Services
                     Content = alertsJson,
                 };
 
-                await this.notificationService.SendToAllAsync(notificationMessage);
+                //String alertsPlane = JsonConvert.SerializeObject(new {id= alert.Id, message=alert.Message}, settings);
+
+                await this.notificationService.SendToMessagePlaneAsync(alert.Message);
             }
 
             Console.WriteLine(alert);
             return isAlertGenerate;
             
         }
-
-        public Task<bool> GetPreferencesChannelsByUserId(string UserId)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public Task<Boolean> GetPreferencesChannelsByUserId(String UserId)
-        //{
-        //    UserSettings userSettings = new UserSettings
-        //    {
-        //        UserId = "12345",
-        //        Channels = new Channels
-        //        {
-        //            Sms = true,
-        //            Email = false,
-        //            Push = true,
-        //            Whatsapp = true
-        //        }
-        //    };
-
-        //    return true;
-        //}
     }
-
-    public class UserSettings
-    {
-        public String UserId { get; set; }
-        public Channels Channels { get; set; }
-    }
-
-    public class Channels
-    {
-        public Boolean Sms { get; set; }
-        public Boolean Email { get; set; }
-        public Boolean Push { get; set; }
-        public Boolean Whatsapp { get; set; }
-    }
-
 }

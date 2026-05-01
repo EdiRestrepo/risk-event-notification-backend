@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Confluent.Kafka;
+using Microsoft.AspNetCore.SignalR;
 using RiskEventNotifacion.Domain.Entities;
 using RiskEventNotifacion.Domain.Interfaces;
 using System;
@@ -23,9 +24,16 @@ namespace RiskEventNotifacion.Application.Services
                 message);
         }
 
-        public async Task SendToUserAsync(string userId, NotificationMessage message)
+        public async Task SendToUserAsync(String userId, NotificationMessage message)
         {
             await this.hubContext.Clients.User(userId).SendAsync("ReceiveNotification", message);
+        }
+
+        public async Task SendToMessagePlaneAsync(String messagePlane)
+        {
+            await this.hubContext.Clients.All.SendAsync(
+                "ReceiveNotification",
+                messagePlane);
         }
     }
 }

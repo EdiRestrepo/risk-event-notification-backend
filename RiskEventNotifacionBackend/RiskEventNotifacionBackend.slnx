@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/Documents/">
+    <File Path="Prueba.xml" />
+    <File Path="XMLFile1.xlsx" />
+  </Folder>
+  <Folder Name="/UnitTest/" />
   <Project Path="RiskEventNotifacion.Api/RiskEventNotifacion.Api.csproj" />
   <Project Path="RiskEventNotifacion.Application/RiskEventNotifacion.Application.csproj" />
   <Project Path="RiskEventNotifacion.Domain/RiskEventNotifacion.Domain.csproj" />
