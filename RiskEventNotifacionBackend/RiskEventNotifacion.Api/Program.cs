@@ -2,6 +2,8 @@ using RiskEventNotifacion.Application.Interfaces;
 using RiskEventNotifacion.Application.Services;
 using RiskEventNotifacion.Domain.Interfaces;
 using RiskEventNotifacion.Infraestructure.Interfaces;
+using RiskEventNotifacion.Infraestructure.Persistence;
+using RiskEventNotifacion.Infraestructure.Repositories;
 using RiskEventNotifacion.Infraestructure.Repositorys;
 using RiskEventNotifacion.Presentation.Facades;
 using RiskEventNotifacion.Presentation.Interfaces;
@@ -34,6 +36,9 @@ builder.Services.AddCors(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+//Singetons
+builder.Services.AddSingleton<MySqlConnectionFactory>();
+
 //Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAlertsService, AlertsService>();
@@ -47,7 +52,8 @@ builder.Services.AddScoped<IChannelsFacade, ChannelsFacade>();
 
 //Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddScoped<IUsersApplicationRepository, UsersApplicationRepository>();
+builder.Services.AddScoped<IUserChannelsRepository, UserChannelsRepository>();
 
 
 var app = builder.Build();

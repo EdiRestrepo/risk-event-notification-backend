@@ -12,9 +12,20 @@ namespace RiskEventNotifacion.Presentation.Facades
         {
             this.authService = authService;
         }
-        public async Task<Boolean> ValidateUsersAsync(UserRequest user)
+        public async Task<UserRequest> ValidateUsersAsync(UserRequest user)
         {
-            return await this.authService.ValidateCredentialsAsync(user.UserName, user.Password);
+
+            UserRequest userResponse = user;
+
+            var result =  await this.authService.ValidateCredentialsAsync(user.UserName, user.Password);
+
+            if (result != null)
+            {
+                userResponse.Id = result.Id;
+                userResponse.Name = result.Name;
+            }
+            return userResponse;
+
         }
     }
 }

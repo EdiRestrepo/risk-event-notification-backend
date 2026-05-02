@@ -29,9 +29,9 @@ namespace RiskEventNotifacion.Api.Controllers
                 Token = Guid.NewGuid() 
             };
 
-            Boolean result = await this.authFacade.ValidateUsersAsync(request);
+            var result = await this.authFacade.ValidateUsersAsync(request);
             
-            if (result == true) {
+            if (!String.IsNullOrEmpty(result.Id) && !String.IsNullOrEmpty(result.Name)) {
                 resultObject.Success = true;
                 resultObject.Message = "Ingreso exitoso";
                 return Ok(new
@@ -39,7 +39,7 @@ namespace RiskEventNotifacion.Api.Controllers
                     success = resultObject.Success,
                     message = resultObject.Message,
                     token = resultObject.Token,
-                    user = new { id = "123", name = "Carlos", userName = request.UserName }
+                    user = new { id = result.Id, name = result.Name, userName = result.UserName}
                 });
             }
 

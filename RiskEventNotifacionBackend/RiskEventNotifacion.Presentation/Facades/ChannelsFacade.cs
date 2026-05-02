@@ -14,21 +14,25 @@ namespace RiskEventNotifacion.Presentation.Facades
             this.channelsService = channelsService;
         }
 
-        public async Task<ChannelsPreferencesResult> GetPreferencesChannelsByUserId(String userId)
+        public async Task<ChannelsPreferencesResult?> GetPreferencesChannelsByUserId(String userId)
         {
             var result = await this.channelsService.GetPreferencesChannelsByUserId(userId);
 
-            ChannelsResult channelsResult = new ChannelsResult();
-            channelsResult.Push = result.Channels.Push;
-            channelsResult.Sms = result.Channels.Sms;
-            channelsResult.Email = result.Channels.Email;
-            channelsResult.Whatsapp = result.Channels.Whatsapp;
+            if (!String.IsNullOrEmpty(result.UserId))
+            {
+                ChannelsResult channelsResult = new ChannelsResult();
+                channelsResult.Push = result.Channels.Push;
+                channelsResult.Sms = result.Channels.Sms;
+                channelsResult.Email = result.Channels.Email;
+                channelsResult.Whatsapp = result.Channels.Whatsapp;
 
-            ChannelsPreferencesResult channelsPreferencesResult = new ChannelsPreferencesResult();
-            channelsPreferencesResult.UserId = result.UserId;
-            channelsPreferencesResult.Channels = channelsResult;
+                ChannelsPreferencesResult channelsPreferencesResult = new ChannelsPreferencesResult();
+                channelsPreferencesResult.UserId = result.UserId;
+                channelsPreferencesResult.Channels = channelsResult;
+                return channelsPreferencesResult;
+            }
 
-            return channelsPreferencesResult;
+            return null;
         }
 
         public async Task<Boolean> UpdatePreferencesChannelsByUserId(String userId, ChannelsResult channelsUpdate)

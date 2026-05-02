@@ -4,6 +4,6 @@ namespace RiskEventNotifacion.Presentation.Interfaces
 {
     public interface IAuthFacade
     {
-        Task<Boolean> ValidateUsersAsync(UserRequest user);
+        Task<UserRequest> ValidateUsersAsync(UserRequest user);
     }
 }
