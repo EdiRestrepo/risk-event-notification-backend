@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using RiskEventNotifacion.Domain.Entities;
 using RiskEventNotifacion.Infraestructure.Entities;
 using RiskEventNotifacion.Infraestructure.Interfaces;
 using RiskEventNotifacion.Infraestructure.Persistence;
@@ -19,8 +20,8 @@ namespace RiskEventNotifacion.Infraestructure.Repositories
             using var connection = _factory.CreateConnection();
 
             string sql = @"
-            INSERT INTO usuariochannels (IdUsuario, sms, email, push, whatsapp )
-            VALUES (@idUsuario, @sms, @email, @push, @whatsapp)";
+            INSERT INTO usuariochannels (IdUsuario, sms, email, push, whatsapp, username )
+            VALUES (@idUsuario, @sms, @email, @push, @whatsapp, @idUsuario)";
 
             return (Int16)await connection.ExecuteAsync(sql, 
                 param: new { idUsuario = userChannelsEntities.IdUsuario, sms = userChannelsEntities.Sms,
@@ -31,9 +32,18 @@ namespace RiskEventNotifacion.Infraestructure.Repositories
         {
             using var connection = _factory.CreateConnection();
 
-            String sql = "SELECT IdUsuario, sms, email, push, whatsapp FROM usuariochannels WHERE idUsuario=@userId";
+            String sql = "SELECT IdUsuario, sms, email, push, whatsapp FROM usuariochannels WHERE username=@userName";
 
-            return await connection.QueryFirstOrDefaultAsync<UserChannelsEntities>(sql, param: new { userId = userId });
+            return await connection.QueryFirstOrDefaultAsync<UserChannelsEntities>(sql, param: new { userName = userId });
+        }
+
+        public async Task<UserChannelsEntities> GetChannelsByUserName(String userName)
+        {
+            using var connection = _factory.CreateConnection();
+
+            String sql = "SELECT IdUsuario, sms, email, push, whatsapp FROM usuariochannels WHERE IdUsuario=@idUsuario";
+
+            return await connection.QueryFirstOrDefaultAsync<UserChannelsEntities>(sql, param: new { idUsuario = userName });
         }
 
         public async Task<Int16> UpdateUserChannels(UserChannelsEntities userChannelsEntities)

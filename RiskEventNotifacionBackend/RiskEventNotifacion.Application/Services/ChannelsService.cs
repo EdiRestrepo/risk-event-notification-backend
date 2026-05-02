@@ -37,7 +37,8 @@ namespace RiskEventNotifacion.Application.Services
 
         public async Task<Boolean> UpdatePreferencesChannelsByUserId(String userId, Channels channels)
         {
-            UserChannelsEntities userChannelsEntities = await this.userChannelsRepository.GetChannelsByUserId(userId);
+            //ToDo: Pendiente redefinir
+            UserChannelsEntities userChannelsEntities = await this.userChannelsRepository.GetChannelsByUserName(userId);
 
             UserChannelsEntities userChannelsEntitiesRequest = new UserChannelsEntities 
             {

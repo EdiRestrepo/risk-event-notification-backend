@@ -8,8 +8,8 @@ namespace RiskEventNotifacion.Presentation.Entities
     {
         public String UserName { get; set; }
         public String Password { get; set; }
-        public String Name { get; set; }
-        public String Id { get; set; }
+        public String? Name { get; set; }
+        public String? Id { get; set; }
 
     }
 }
