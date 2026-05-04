@@ -1,3 +1,4 @@
+using Confluent.Kafka;
 using RiskEventNotifacion.Application.Interfaces;
 using RiskEventNotifacion.Application.Services;
 using RiskEventNotifacion.Domain.Interfaces;
@@ -14,8 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<IKafkaProducerService, KafkaProducerService>();
-builder.Services.AddHostedService<KafkaConsumerService>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -36,7 +36,7 @@ builder.Services.AddCors(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//Singetons
+//Singletons
 builder.Services.AddSingleton<MySqlConnectionFactory>();
 
 //Services
@@ -44,6 +44,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAlertsService, AlertsService>();
 builder.Services.AddScoped<IChannelsService, ChannelsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ITraceLogger, KafkaTraceLoggerProducer>();
 
 //Facades
 builder.Services.AddScoped<IAuthFacade, AuthFacade>();
@@ -54,6 +55,30 @@ builder.Services.AddScoped<IChannelsFacade, ChannelsFacade>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUsersApplicationRepository, UsersApplicationRepository>();
 builder.Services.AddScoped<IUserChannelsRepository, UserChannelsRepository>();
+builder.Services.AddScoped<IExternalNotificationLogsRepository, ExternalNotificationLogsRepository>();
+builder.Services.AddScoped<IProcessTraceLogsRepository, ProcessTraceLogsRepository>();
+
+//Host
+builder.Services.AddHostedService<KafkaConsumerService>();
+
+//Singletons
+builder.Services.AddSingleton<
+    IProducer<Null, String>>(
+    sp =>
+    {
+        var configuration = sp.GetRequiredService<IConfiguration>();
+
+        var config = new ProducerConfig
+        {
+            BootstrapServers = configuration["Kafka:BootstrapServers"]
+        };
+
+        return new ProducerBuilder<Null, String>(config).Build();
+    });
+
+
+builder.Services.AddSingleton<IKafkaProducerService, KafkaProducerService>();
+builder.Services.AddSingleton<ITraceProducerService, TraceProducerService>();
 
 
 var app = builder.Build();

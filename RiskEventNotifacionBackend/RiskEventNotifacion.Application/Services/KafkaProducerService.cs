@@ -1,7 +1,10 @@
 ﻿using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using RiskEventNotifacion.Application.Interfaces;
 using RiskEventNotifacion.Domain.Entities;
+using RiskEventNotifacion.Domain.Enum;
+using RiskEventNotifacion.Infraestructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,21 +15,24 @@ namespace RiskEventNotifacion.Application.Services
     public class KafkaProducerService : IKafkaProducerService
     {
         private readonly IConfiguration configuration;
+        private readonly IServiceScopeFactory scopeFactory;
 
-        public KafkaProducerService(IConfiguration configuration)
+        public KafkaProducerService(IConfiguration configuration, IServiceScopeFactory scopeFactory)
         {
             this.configuration = configuration;
+            this.scopeFactory = scopeFactory;
         }
         public async Task ProduceAsync(NotificationMessage message)
         {
             try
             {
+                var serverconfig = this.configuration["Kafka:BootstrapServers"];
                 ProducerConfig config = new ProducerConfig
                 {
-                    BootstrapServers = this.configuration["Kafka:BootstrapServers"],
+                    BootstrapServers = serverconfig,
                     MessageTimeoutMs = 5000
                 };
-
+                
                 using var producer = new ProducerBuilder<Null, String>(config)
                     .SetErrorHandler((_, e) =>
                      {
@@ -36,12 +42,23 @@ namespace RiskEventNotifacion.Application.Services
                 try
                 {
                     var topic = this.configuration["Kafka:Topic"];
+                    var groupId = this.configuration["Kafka:GroupId"];
 
-                    var result = await producer.ProduceAsync(topic, new Message<Null, String>
-                    {
-                        Value = JsonSerializer.Serialize(message)
-                    });
-                    Console.WriteLine($"Mensaje enviado: {result.Offset}");
+                    String messageJson = JsonSerializer.Serialize(message);
+                    //var result = await producer.ProduceAsync(topic, new Message<Null, String>
+                    //{
+                    //    Value = messageJson
+                    //});
+
+                    String originConfig = JsonSerializer.Serialize(new { BootstrapServers = serverconfig, topic = topic, groupId = groupId });
+
+                    using IServiceScope scope = this.scopeFactory.CreateScope();
+
+                    IExternalNotificationLogsRepository repository = scope.ServiceProvider.GetRequiredService<IExternalNotificationLogsRepository>();
+
+                    var resultLog = await repository.SaveLogsAsync(NotificationExternalLogType.KafkaProducer, originConfig, messageJson);
+
+                    //Console.WriteLine($"Mensaje enviado: {result.Offset}");
                 }
                 catch (ProduceException<Null, String> ex)
                 {
