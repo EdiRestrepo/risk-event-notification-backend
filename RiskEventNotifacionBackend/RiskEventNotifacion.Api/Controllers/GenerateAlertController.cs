@@ -38,7 +38,7 @@ namespace RiskEventNotifacion.Api.Controllers
                 Token = Guid.NewGuid()
             };
             Boolean result = await this.alertsFacade.GenerarateAlertAsync(request, traceContext);
-            if (result == true)
+            if (result)
             {
                 resultObject.Success = true;
                 resultObject.Message = "Alerta Generada Correctametne";

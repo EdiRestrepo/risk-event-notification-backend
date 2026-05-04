@@ -22,14 +22,13 @@ namespace RiskEventNotifacion.Application.Services
         public async Task<Boolean> GenerarateAlertAsync(Int16 eventType, Int16 riskLevel, String title, String message, String location, String source, List<String> instructions, List<Int16> channels, Boolean isGeneric, TraceContext traceContext)
         {
             await this.traceLogger.LogAsync(traceContext, "Application", "StartExecute", "OK", "Construyendo alerta");
-            AlertDirector alertDirector = new AlertDirector();
             Alerts alert = new Alerts();
             Boolean isAlertGenerate = false;
             if (isGeneric)
             {
                 if ((EventType)eventType == EventType.Flood)
                 {
-                    alert = alertDirector.CreateFloodAlert(
+                    alert = AlertDirector.CreateFloodAlert(
                         new AlertBuilder(),
                         location
                     );
@@ -37,7 +36,7 @@ namespace RiskEventNotifacion.Application.Services
                 }
                 else if ((EventType)eventType == EventType.Landslide)
                 {
-                    alert = alertDirector.CreateLandslideAlert(
+                    alert = AlertDirector.CreateLandslideAlert(
                         new AlertBuilder(),
                         location
                     );
@@ -55,7 +54,7 @@ namespace RiskEventNotifacion.Application.Services
                 {
                     channelsInit.Add((NotificationChannel)channel);
                 }
-                alert = alertDirector.CreateAlertDynamic(new AlertBuilder(), eventTypeInit, riskLevelInit, title, message, location, source, instructions, channelsInit);
+                alert = AlertDirector.CreateAlertDynamic(new AlertBuilder(), eventTypeInit, riskLevelInit, title, message, location, source, instructions, channelsInit);
                 isAlertGenerate = true;
             }
             

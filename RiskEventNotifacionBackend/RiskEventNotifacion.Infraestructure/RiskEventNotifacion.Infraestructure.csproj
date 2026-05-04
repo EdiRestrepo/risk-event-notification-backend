@@ -16,4 +16,8 @@
     <ProjectReference Include="..\RiskEventNotifacion.Domain\RiskEventNotifacion.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataSimulation\DAO\" />
+  </ItemGroup>
+
 </Project>
