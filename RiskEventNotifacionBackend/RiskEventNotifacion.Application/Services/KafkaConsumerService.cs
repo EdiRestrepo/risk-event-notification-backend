@@ -45,19 +45,19 @@ namespace RiskEventNotifacion.Application.Services
 
                 consumer.Subscribe(topic);
 
-                String originConfig = JsonSerializer.Serialize(new { BootstrapServers = serverconfig, topic = topic, groupId = groupId });
+                //String originConfig = JsonSerializer.Serialize(new { BootstrapServers = serverconfig, topic = topic, groupId = groupId });
 
-                using IServiceScope scope = this.scopeFactory.CreateScope();
+                //using IServiceScope scope = this.scopeFactory.CreateScope();
 
-                IExternalNotificationLogsRepository repository = scope.ServiceProvider.GetRequiredService<IExternalNotificationLogsRepository>();
+                //IExternalNotificationLogsRepository repository = scope.ServiceProvider.GetRequiredService<IExternalNotificationLogsRepository>();
 
-                var resultLog = await repository.SaveLogsAsync(NotificationExternalLogType.KafkaConsumer, originConfig, "Mensaje de prueba");
+                //var resultLog = await repository.SaveLogsAsync(NotificationExternalLogType.KafkaConsumer, originConfig, "Mensaje de prueba");
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     Console.WriteLine("Esperando mensaje...");
-                    //var consumeResult = consumer.Consume(TimeSpan.FromSeconds(2));
-                    var consumeResult = consumer.Consume(stoppingToken);
+                    var consumeResult = consumer.Consume(TimeSpan.FromSeconds(5));
+                    //var consumeResult = consumer.Consume(stoppingToken);
                     Console.WriteLine("Mensaje recibido");
                     if (consumeResult != null)
                     {
@@ -66,13 +66,13 @@ namespace RiskEventNotifacion.Application.Services
                         //    consumeResult.Message.Value);
                         var notification = consumeResult.Message.Value;
 
-                        //String originConfig = JsonSerializer.Serialize(new { BootstrapServers = serverconfig, topic = topic, groupId = groupId });
+                        String originConfig = JsonSerializer.Serialize(new { BootstrapServers = serverconfig, topic = topic, groupId = groupId });
+                        //String notificationText = JsonSerializer.Serialize<NotificationMessage>(notification);
+                        using IServiceScope scope = this.scopeFactory.CreateScope();
 
-                        //using IServiceScope scope = this.scopeFactory.CreateScope();
+                        IExternalNotificationLogsRepository repository = scope.ServiceProvider.GetRequiredService<IExternalNotificationLogsRepository>();
 
-                        //IExternalNotificationLogsRepository repository = scope.ServiceProvider.GetRequiredService<IExternalNotificationLogsRepository>();
-
-                        //var resultLog = await repository.SaveLogsAsync(NotificationExternalLogType.KafkaConsumer, originConfig, notification);
+                        _ = await repository.SaveLogsAsync(NotificationExternalLogType.KafkaConsumer, originConfig, notification);
 
                         await this.hubContext.Clients.All.SendAsync(
                             "ReceiveNotification",

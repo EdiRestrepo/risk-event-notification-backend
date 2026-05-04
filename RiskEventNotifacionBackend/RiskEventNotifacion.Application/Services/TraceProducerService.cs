@@ -49,12 +49,12 @@ namespace RiskEventNotifacion.Application.Services
             };
             var resultLog = await repository.SaveTraceAsync(processTraceLog);
 
-            //await this.producer.ProduceAsync(
-            //    topic,
-            //    new Message<Null, string>
-            //    {
-            //        Value = payload
-            //    });
+            await this.producer.ProduceAsync(
+                topic,
+                new Message<Null, string>
+                {
+                    Value = payload
+                });
         }
     }
 }

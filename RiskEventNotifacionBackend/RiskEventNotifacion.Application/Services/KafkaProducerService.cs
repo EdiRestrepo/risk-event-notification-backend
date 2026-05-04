@@ -45,10 +45,10 @@ namespace RiskEventNotifacion.Application.Services
                     var groupId = this.configuration["Kafka:GroupId"];
 
                     String messageJson = JsonSerializer.Serialize(message);
-                    //var result = await producer.ProduceAsync(topic, new Message<Null, String>
-                    //{
-                    //    Value = messageJson
-                    //});
+                    var result = await producer.ProduceAsync(topic, new Message<Null, String>
+                    {
+                        Value = messageJson
+                    });
 
                     String originConfig = JsonSerializer.Serialize(new { BootstrapServers = serverconfig, topic = topic, groupId = groupId });
 
