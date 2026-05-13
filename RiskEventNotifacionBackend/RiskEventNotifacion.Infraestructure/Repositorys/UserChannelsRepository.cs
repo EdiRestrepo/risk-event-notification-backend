@@ -4,7 +4,7 @@ using RiskEventNotifacion.Infraestructure.Entities;
 using RiskEventNotifacion.Infraestructure.Interfaces;
 using RiskEventNotifacion.Infraestructure.Persistence;
 
-namespace RiskEventNotifacion.Infraestructure.Repositories
+namespace RiskEventNotifacion.Infraestructure.Repositorys
 {
     public class UserChannelsRepository : IUserChannelsRepository
     {

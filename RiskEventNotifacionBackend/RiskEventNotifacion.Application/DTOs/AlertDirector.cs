@@ -7,7 +7,7 @@ using System.Text;
 
 namespace RiskEventNotifacion.Application.DTOs
 {
-    public class AlertDirector
+    public static class AlertDirector
     {
         /// <summary>
         /// Alerta estandar de una inundación
@@ -15,7 +15,7 @@ namespace RiskEventNotifacion.Application.DTOs
         /// <param name="builder"></param>
         /// <param name="location"></param>
         /// <returns></returns>
-        public Alerts CreateFloodAlert(IAlertBuilder builder, String location)
+        public static Alerts CreateFloodAlert(IAlertBuilder builder, String location)
         {
             return builder
                 .SetEventType(EventType.Flood)
@@ -36,7 +36,7 @@ namespace RiskEventNotifacion.Application.DTOs
         /// <param name="builder"></param>
         /// <param name="location"></param>
         /// <returns></returns>
-        public Alerts CreateLandslideAlert(IAlertBuilder builder, String location)
+        public static Alerts CreateLandslideAlert(IAlertBuilder builder, String location)
         {
             return builder
                 .SetEventType(EventType.Landslide)
@@ -64,7 +64,7 @@ namespace RiskEventNotifacion.Application.DTOs
         /// <param name="instructions"></param>
         /// <param name="channels"></param>
         /// <returns></returns>
-        public Alerts CreateAlertDynamic(IAlertBuilder builder, EventType eventType, RiskLevel riskLevel, String title, String message, 
+        public static Alerts CreateAlertDynamic(IAlertBuilder builder, EventType eventType, RiskLevel riskLevel, String title, String message, 
             String location, String source, List<String> instructions, List<NotificationChannel> channels)
         {
             if (eventType != EventType.UnDefined)

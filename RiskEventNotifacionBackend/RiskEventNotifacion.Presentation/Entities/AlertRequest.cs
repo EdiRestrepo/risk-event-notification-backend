@@ -24,5 +24,6 @@ namespace RiskEventNotifacion.Presentation.Entities
         public List<Int16> Channels { get; set; } = [];
 
         public Boolean isGenereric { get; set; } = false;
+
     }
 }

@@ -3,10 +3,10 @@ using RiskEventNotifacion.Application.Services;
 using RiskEventNotifacion.Domain.Interfaces;
 using RiskEventNotifacion.Infraestructure.Interfaces;
 using RiskEventNotifacion.Infraestructure.Persistence;
-using RiskEventNotifacion.Infraestructure.Repositories;
 using RiskEventNotifacion.Infraestructure.Repositorys;
 using RiskEventNotifacion.Presentation.Facades;
 using RiskEventNotifacion.Presentation.Interfaces;
+using RiskEventNotifacion.Presentation.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +44,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAlertsService, AlertsService>();
 builder.Services.AddScoped<IChannelsService, ChannelsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ISiataAlertAdapter, SiataAlertAdapter>();
 
 //Facades
 builder.Services.AddScoped<IAuthFacade, AuthFacade>();
@@ -51,7 +52,6 @@ builder.Services.AddScoped<IAlertsFacade, AlertsFacade>();
 builder.Services.AddScoped<IChannelsFacade, ChannelsFacade>();
 
 //Repository
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUsersApplicationRepository, UsersApplicationRepository>();
 builder.Services.AddScoped<IUserChannelsRepository, UserChannelsRepository>();
 
