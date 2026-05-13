@@ -16,10 +16,5 @@ namespace RiskEventNotifacion.Presentation.Facades
         {
             return await this.alertsService.GenerarateAlertAsync(alert.EventType, alert.RiskLevel, alert.Title, alert.Message, alert.Location, alert.Source, alert.Instructions, alert.Channels, alert.isGenereric);
         }
-
-        public Task<Boolean> GetPreferencesChannelsByUserId(string userId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
